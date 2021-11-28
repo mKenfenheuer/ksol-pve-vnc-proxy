@@ -1,0 +1,54 @@
+stages:
+ - build
+ - package
+ - publish
+
+build_agent_debian_x64:
+  stage: build
+  image: mcr.microsoft.com/dotnet/sdk:5.0
+  needs: []
+  tags:
+      - docker
+      - build
+  script:
+    - dotnet publish --self-contained -c release -r linux-x64 *.sln
+  artifacts:
+    paths:
+     - "./bin/Release/net5.0/linux-x64/publish"
+  only:
+   - main
+
+package_debian_x64:
+  stage: package
+  needs: 
+    - build_agent_debian_x64
+  image: cdrx/fpm-debian:latest  
+  tags:
+      - docker
+      - build
+  script:
+    - chmod +x ./bin/Release/net5.0/linux-x64/publish/KSol_PVE_VNC_Proxy
+    - chmod +x ./Packaging/debian/ksol-pve-vnc-proxy.sh
+    - chmod +x ./Packaging/debian/install-scripts/*.sh
+    - chmod +x ./Packaging/debian/build.sh
+    - ./Packaging/debian/build.sh
+  artifacts:
+    paths:
+     - "*.deb"
+  only:
+   - main
+
+publish_apt:
+  stage: publish
+  needs: 
+    - build_agent_debian_x64
+    - package_debian_x64
+  tags:
+      - gpgsign
+      - repo
+      - shell
+  script:
+    - cp *.deb /var/www/html/deb
+    - sudo -u gpgsign /home/gpgsign/signall.sh
+  only:
+   - main

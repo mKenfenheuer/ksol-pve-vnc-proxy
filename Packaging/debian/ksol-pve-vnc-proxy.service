@@ -1,0 +1,10 @@
+[Unit]
+Description=KSol PVE VNC Proxy
+After=network.target auditd.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/ksol-pve-vnc-proxy
+
+[Install]
+WantedBy=multi-user.target
