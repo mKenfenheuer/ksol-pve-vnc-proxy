@@ -160,7 +160,7 @@ Nov 28 15:54:03 SSTG4400 ksol-pve-vnc-proxy[3371201]:       Content root path: /
 
 ## How does it work?
 
-The proxy server api listens by default on `https://0.0.0.0:5001`. This means if your ip address of your Proxmox host is `192.168.1.20` you would want to access the proxy server at `https://192.168.1.20:5001/`.
+The proxy server api listens by default on `https://0.0.0.0:5001`. This means if your ip address of your Proxmox VE host is `192.168.1.20` you would want to access the proxy server at `https://192.168.1.20:5001/`.
 
 There is the following api call available:
 
@@ -204,4 +204,4 @@ The api will respond to your query with the following json response, which is th
 ```
 
 You can then use the information to make a vnc connection to the Proxmox VE host.
-Assuming you received the same information as above (port `5900`) and the ip address of your Proxmox host is `192.168.1.20` you would want to access the vnc server at `vnc://192.168.1.20:5900/`. Then on connection, use the vnc ticket as password.
+Assuming you received the same information as above (port `5900`) and the ip address of your Proxmox VE host is `192.168.1.20` you would want to access the vnc server at `vnc://192.168.1.20:5900/`. Then on connection, use the vnc ticket as password.
