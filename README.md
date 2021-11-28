@@ -162,13 +162,13 @@ Nov 28 15:54:03 SSTG4400 ksol-pve-vnc-proxy[3371201]:       Content root path: /
 
 The proxy server api listens by default on `https://0.0.0.0:5001`. This means if your ip address of your proxmox host is `192.168.1.20` you would want to access the proxy server at `https://192.168.1.20:5001/`.
 
-There are the following api calls available:
+There is the following api call available:
 
 `` 
-/api2/json/nodes/{node}/{type}/{id}/plainvncproxy
+GET /api2/json/nodes/{node}/{type}/{id}/plainvncproxy
 ``
 
-### Parameters: 
+#### Parameters: 
 
 | Parameter | Description |
 |---|---|
@@ -176,7 +176,7 @@ There are the following api calls available:
 | `{type}` | The resource type, likely `qemu` or  `lxc` |
 | `{id}` | The resource id of the virtual machine |
 
-### Authentication:
+#### Authentication:
 
 Authentication information to the service is pass-through, meaning there is no authentication and authorization checks performed by this proxy. This is done by the Proxmox VE host api. Therefore you will need to send the same authentication information, in the same form to this proxy as if you would do to the Proxmox api.
 
@@ -185,14 +185,14 @@ Authentication information to the service is pass-through, meaning there is no a
 | `Cookie: PVEAuthCookie=XXXX` | The PVE auth cookie obtained by logging in to the api. |
 | `CSRFPreventionToken` | The CSRFPreventionToken obtained by logging in to the api. |´
 
-### Response:
+#### Response:
 
 The api will respond to your query with the following json response, which is the same to the Proxmox VE Api:
 
 ```json
 {
     "statusCode": 200,      // Status code, 200 if succeded
-    "errorMessage": null,   // Error message, null if succeded
+    "errorMessage": {},     // Error message, null if succeded
     "responsePayload": {    // VNC Connection details, null if an error ocurred
         "upid": "",         // Proxmox Console Task ID 
         "user": "",         // User and realm for which the vnc console is started. 
